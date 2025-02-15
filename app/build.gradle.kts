@@ -63,4 +63,20 @@ dependencies {
     implementation ("androidx.compose.runtime:runtime-livedata:1.4.0") // или актуальная версия
     implementation ("androidx.activity:activity-compose:1.7.0") // для Compose с Activity
     implementation ("androidx.compose.material3:material3:1.1.0") // для Material3
+
+    implementation("androidx.compose.ui:ui:1.5.0")
+    implementation("androidx.compose.material3:material3:1.1.1")
+    implementation("androidx.compose.foundation:foundation:1.5.0")
+
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.2")
+
+    // ViewModel для управления состоянием
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+
+    // Accompanist (если нужно скрытие системных элементов)
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.1-alpha")
+
+    // Coil для загрузки изображений
+    implementation("io.coil-kt:coil-compose:2.2.2")
 }

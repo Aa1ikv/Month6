@@ -6,9 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import kg.geeks.month6.ui.navigation.Screen
 import kg.geeks.month6.ui.screens.BookDetailScreen
 import kg.geeks.month6.ui.screens.BookListScreen
@@ -23,18 +25,35 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookCatalogApp() {
+    val navController = rememberNavController()
     val viewModel: BookViewModel = viewModel()
-    var currentScreen = remember { mutableStateOf<Screen>(Screen.BookList) }
 
-    when (val screen = currentScreen.value) {
-        is Screen.BookList -> BookListScreen(viewModel = viewModel, onBookClick = {
-            currentScreen.value = Screen.BookDetail(it)
-        })
-        is Screen.BookDetail -> BookDetailScreen(book = screen.book, onBack = {
-            currentScreen.value = Screen.BookList
-        })
-    }
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Book Catalog") })
+        },
+        content = { paddingValues ->
+            NavHost(
+                navController = navController,
+                startDestination = Screen.BookList.route,
+                modifier = Modifier.padding(paddingValues)
+            ) {
+                composable(Screen.BookList.route) {
+                    BookListScreen(viewModel = viewModel, onBookClick = {
+                        navController.navigate(Screen.BookDetail.createRoute(it))
+                    })
+                }
+                composable(Screen.BookDetail.route) { backStackEntry ->
+                    val bookId = backStackEntry.arguments?.getString("bookId")
+                    val book = viewModel.getBookById(bookId)
+                    BookDetailScreen(book = book, onBack = {
+                        navController.popBackStack()
+                    })
+                }
+            }
+        }
+    )
 }
-
