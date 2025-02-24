@@ -79,4 +79,14 @@ dependencies {
 
     // Coil для загрузки изображений
     implementation("io.coil-kt:coil-compose:2.2.2")
+
+
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0") // Retrofit
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0") // Gson-конвертер для обработки JSON
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3") // Логирование запросов
+
+
+    // Koin для DI
+    implementation ("io.insert-koin:koin-android:3.5.0")
+    implementation ("io.insert-koin:koin-androidx-compose:3.5.0")
 }
